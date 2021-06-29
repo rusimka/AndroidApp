@@ -2,6 +2,7 @@ package com.example.androidapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -17,6 +18,10 @@ import java.util.Collections;
 import java.util.List;
 
 public class QuizActivity extends AppCompatActivity {
+
+
+    public static final String EXTRA_SCORE = "extraScore";
+
 
     private TextView textViewQuestion;
     private TextView textViewScore;
@@ -37,6 +42,9 @@ public class QuizActivity extends AppCompatActivity {
 
     private int score;
     private boolean answered;
+
+    private long backPressedTime;
+
 
 
 
@@ -148,6 +156,23 @@ public class QuizActivity extends AppCompatActivity {
     }
 
     private void finishQuiz() {
+        Intent resultInten = new Intent();
+        resultInten.putExtra(EXTRA_SCORE,score);
+        setResult(RESULT_OK,resultInten);
         finish(); // close the activity
+
     }
+
+    @Override
+    public void onBackPressed() {
+
+        if (backPressedTime + 2000 > System.currentTimeMillis()) {
+            finishQuiz(); // we still save our result
+        } else {
+            Toast.makeText(this, "Press back again to finish", Toast.LENGTH_SHORT);
+        }
+        backPressedTime = System.currentTimeMillis();
+
+    }
+
 }
