@@ -93,7 +93,7 @@ public class QuizActivity extends AppCompatActivity {
 
             // if there is no saved instance state
             QuizDbHelper dbHelper = new QuizDbHelper(this);
-            questionList = dbHelper.getAllQuestion(); // this will create our database
+            questionList = dbHelper.getAllQuestions(); // this will create our database
             questionCountTotal = questionList.size();
             Collections.shuffle(questionList);
 
