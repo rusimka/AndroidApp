@@ -97,6 +97,15 @@
             >
         </RadioButton>
 
+        <RadioButton
+            android:id="@+id/radio_button4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Option 4"
+            android:freezesText="true"
+            >
+        </RadioButton>
+
     </RadioGroup>
 
     <Button

@@ -4,9 +4,9 @@ import androidx.annotation.NonNull;
 
 public class Category {
 
-    public static final int PROGRAMMING = 1; // OOP
-    public static final int GEOGRAPHY = 2;
-    public static final int MATH = 3;
+    public static final int ANDROID = 1; // OOP
+    public static final int PROGRAMMING = 2;
+    public static final int  DATABASE = 3;
 
 
     private int id;

@@ -51,6 +51,7 @@ public class QuizActivity extends AppCompatActivity {
     private RadioButton rb1;
     private RadioButton rb2;
     private RadioButton rb3;
+    private RadioButton rb4;
     private Button buttonConfirmNext;
 
     private ColorStateList textColorDefaulRb;
@@ -88,6 +89,7 @@ public class QuizActivity extends AppCompatActivity {
         rb1 = findViewById(R.id.radio_button1);
         rb2 = findViewById(R.id.radio_button2);
         rb3 = findViewById(R.id.radio_button3);
+        rb4 = findViewById(R.id.radio_button4);
         buttonConfirmNext = findViewById(R.id.button_confirm_next);
 
         textColorDefaulRb = rb1.getTextColors();
@@ -148,6 +150,7 @@ public class QuizActivity extends AppCompatActivity {
         rb1.setTextColor(textColorDefaulRb);
         rb2.setTextColor(textColorDefaulRb);
         rb3.setTextColor(textColorDefaulRb);
+        rb4.setTextColor(textColorDefaulRb);
         rbGroup.clearCheck(); // all radio buttons to be unselected
 
         if (questionCounter < questionCountTotal) {
@@ -157,6 +160,7 @@ public class QuizActivity extends AppCompatActivity {
             rb1.setText(currentQuestion.getOption1());
             rb2.setText(currentQuestion.getOption2());
             rb3.setText(currentQuestion.getOption3());
+            rb4.setText(currentQuestion.getOption3());
 
             questionCounter++;
             textViewQuestionCount.setText("Question: " + questionCounter + "/" + questionCountTotal);
@@ -227,21 +231,27 @@ public class QuizActivity extends AppCompatActivity {
         rb1.setTextColor(Color.RED);
         rb2.setTextColor(Color.RED);
         rb3.setTextColor(Color.RED);
+        rb4.setTextColor(Color.RED);
 
         switch (currentQuestion.getAnswerNumber()) {
             case 1:
                 rb1.setTextColor(Color.GREEN);
-                textViewQuestion.setText("Answer 1 is correct");
+                textViewQuestion.setText("A is correct answer");
                 break;
 
             case 2:
                 rb2.setTextColor(Color.GREEN);
-                textViewQuestion.setText("Answer 2 is correct");
+                textViewQuestion.setText("B is correct answer");
                 break;
 
             case 3:
-                rb1.setTextColor(Color.GREEN);
-                textViewQuestion.setText("Answer 3 is correct");
+                rb3.setTextColor(Color.GREEN);
+                textViewQuestion.setText("C is correct answer");
+                break;
+
+            case 4:
+                rb4.setTextColor(Color.GREEN);
+                textViewQuestion.setText("D is correct answer");
                 break;
         }
 
