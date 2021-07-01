@@ -15,6 +15,9 @@ import java.util.List;
 
 public class QuizDbHelper extends SQLiteOpenHelper {
 
+    private static QuizDbHelper instance;
+
+
     private static final String DATABASE_NAME="FinkiQuiz.db";
 
     private static final int DATABASE_VERSION = 2;
@@ -23,8 +26,17 @@ public class QuizDbHelper extends SQLiteOpenHelper {
 
 
 
-    public QuizDbHelper( Context context) {
+    private QuizDbHelper( Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
+    }
+
+
+    public static synchronized QuizDbHelper getInstance(Context context) {
+        if (instance == null) {
+            instance = new QuizDbHelper(context.getApplicationContext());
+        }
+        return instance;
+
     }
 
     @Override
@@ -113,11 +125,52 @@ public class QuizDbHelper extends SQLiteOpenHelper {
         db.insert(QuestionsTable.TABLE_NAME, null, cv);
     }
 
+    public List<Category> getAllCategories() {
+        List<Category> categoryList = new ArrayList<>();
+        db = getReadableDatabase();
+        Cursor c = db.rawQuery("SELECT * FROM " + CategoriesTable.TABLE_NAME,null);
+        if (c.moveToFirst()) {
+            do {
+                Category category = new Category();
+                category.setId(c.getInt(c.getColumnIndex(CategoriesTable._ID)));
+                category.setName(c.getString(c.getColumnIndex(CategoriesTable.COLUMN_NAME)));
+                categoryList.add(category);
+            } while (c.moveToNext());
+        }
+        c.close();
+        return categoryList;
+    }
+
 
     public ArrayList<Question> getAllQuestions() {
         ArrayList<Question> questionList = new ArrayList<>();
         db = getReadableDatabase();
         Cursor c = db.rawQuery("SELECT * FROM " + QuestionsTable.TABLE_NAME, null);
+        if (c.moveToFirst()) {
+            do {
+                Question question = new Question();
+                question.setId(c.getInt(c.getColumnIndex(QuestionsTable._ID)));
+                question.setQuestion(c.getString(c.getColumnIndex(QuestionsTable.COLUMN_QUESTION)));
+                question.setOption1(c.getString(c.getColumnIndex(QuestionsTable.COLUMN_OPTION1)));
+                question.setOption2(c.getString(c.getColumnIndex(QuestionsTable.COLUMN_OPTION2)));
+                question.setOption3(c.getString(c.getColumnIndex(QuestionsTable.COLUMN_OPTION3)));
+                question.setAnswerNumber(c.getInt(c.getColumnIndex(QuestionsTable.COLUMN_ANSWER)));
+                question.setCategoryID(c.getInt(c.getColumnIndex(QuestionsTable.COLUMN_CATEGORY_ID)));
+                questionList.add(question);
+            } while (c.moveToNext());
+        }
+        c.close();
+        return questionList;
+    }
+
+
+    public ArrayList<Question> getQuestions(int categoryID) {
+        ArrayList<Question> questionList = new ArrayList<>();
+        db = getReadableDatabase();
+        String[] selectionArgs = new String[]{String.valueOf(categoryID)};
+        Cursor c = db.rawQuery("SELECT * FROM " + QuestionsTable.TABLE_NAME +
+                " WHERE " + QuestionsTable.COLUMN_CATEGORY_ID + " = ?", selectionArgs);
+
         if (c.moveToFirst()) {
             do {
                 Question question = new Question();

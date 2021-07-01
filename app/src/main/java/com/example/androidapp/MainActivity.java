@@ -6,8 +6,12 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.TextView;
+
+import java.util.List;
 
 import static android.content.SharedPreferences.*;
 
@@ -15,11 +19,18 @@ public class MainActivity extends AppCompatActivity {
 
     private static int REQUEST_CODE_QUIZ = 1;
 
+    public static final String EXTRA_CATEGORY_ID = "extraCategoryID";
+    public static final String EXTRA_CATEGORY_NAME = "extraCategoryName";
+
+
     public static final String SHARED_PREFS = "sharedPrefs";
 
     public static final String KEY_HIGHSCORE = "keyHighScore";
 
     private TextView textViewHighscore;
+
+    private Spinner spinnerCategory;
+
 
     private int highscore;
 
@@ -32,6 +43,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         textViewHighscore = findViewById(R.id.text_view_highscore);
+        spinnerCategory = findViewById(R.id.spinner_category);
+
+        loadCategories();
         loadHighscore();
 
         Button buttonStartQuiz = findViewById(R.id.button_start_quiz);
@@ -44,8 +58,27 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    private void loadCategories() {
+        // we have to retrieve from the database
+        QuizDbHelper dbHelper = QuizDbHelper.getInstance(this);
+        List<Category> categories = dbHelper.getAllCategories();
+
+        ArrayAdapter<Category> adapterCategories = new ArrayAdapter<>(this,
+                android.R.layout.simple_spinner_item, categories);
+
+        adapterCategories.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerCategory.setAdapter(adapterCategories);
+
+    }
+
     private void startQuiz() {
+        Category selectedCategory = (Category) spinnerCategory.getSelectedItem();
+        int categoryID = selectedCategory.getId();
+        String categoryName = selectedCategory.getName();
         Intent intent = new Intent(MainActivity.this, QuizActivity.class);
+        intent.putExtra(EXTRA_CATEGORY_ID,categoryID);
+        intent.putExtra(EXTRA_CATEGORY_NAME,categoryName);
+
         startActivityForResult(intent,REQUEST_CODE_QUIZ);
     }
 
