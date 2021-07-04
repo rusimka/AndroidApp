@@ -1,5 +1,6 @@
 package com.example.androidapp;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -10,6 +11,16 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.SignInButton;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.List;
 
@@ -35,6 +46,16 @@ public class MainActivity extends AppCompatActivity {
     private int highscore;
 
 
+    private GoogleSignInClient mGoogleSignInClient;
+    private FirebaseAuth mAuth;
+    private Button btnSignOut;
+
+    TextView userName;
+    Button sign_out;
+    Button userDetailsBtn;
+
+
+
 
 
     @Override
@@ -53,10 +74,39 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startQuiz();
-
             }
         });
+
+        sign_out = findViewById(R.id.sign_out_button);
+        userDetailsBtn = findViewById(R.id.show_user_details);
+
+
+        GoogleSignInAccount signInAccount = GoogleSignIn.getLastSignedInAccount(this);
+//        if (signInAccount != null) {
+//            userName.setText(signInAccount.getDisplayName());
+//        }
+
+        sign_out.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FirebaseAuth.getInstance().signOut();
+                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                startActivity(intent);
+               // signOut();
+            }
+        });
+
+//        userDetailsBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(MainActivity.this, UserDetailsFragment.class);
+//                startActivity(intent);
+//            }
+//        });
+
+
     }
+
 
     private void loadCategories() {
         // we have to retrieve from the database
@@ -121,6 +171,24 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences.Editor editor = prefs.edit();
         editor.putInt(KEY_HIGHSCORE,highscore);
         editor.apply();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        if(!checkIfLoggedIn()) {
+            navigateUser();
+        }
+    }
+
+    private boolean checkIfLoggedIn() {
+        return FirebaseAuth.getInstance().getCurrentUser() != null;
+    }
+
+    private void navigateUser() {
+        startActivity(new Intent(MainActivity.this, LoginActivity.class));
+        finish();
     }
 
 

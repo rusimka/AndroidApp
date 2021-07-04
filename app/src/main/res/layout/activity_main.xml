@@ -29,6 +29,16 @@
         android:textColor="@color/black"
         android:layout_marginBottom="32dp"></TextView>
 
+    <TextView
+        android:id="@+id/text_view_user_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/text_view_highscore"
+        android:layout_centerHorizontal="true"
+        android:textSize="20dp"
+        android:textColor="@color/black"
+        android:layout_marginBottom="32dp"></TextView>
+
     <Button
         android:id="@+id/button_start_quiz"
         android:layout_width="wrap_content"
@@ -45,6 +55,22 @@
         android:layout_marginTop="16dp"
         />
 
+    <Button
+        android:id="@+id/sign_out_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/spinner_category"
+        android:layout_marginTop="98dp"
+        android:text="Sign Out" />
+
+    <Button
+        android:id="@+id/show_user_details"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/button_start_quiz"
+        android:layout_marginTop="42dp"
+        android:layout_marginBottom="21dp"
+        android:text="User details"></Button>
 
 
 </RelativeLayout>
