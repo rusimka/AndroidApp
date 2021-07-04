@@ -14,8 +14,7 @@
         android:text="FINKI Online Testing"
         android:textColor="@android:color/black"
         android:textSize="35dp"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp">
+        android:layout_centerHorizontal="true">
     </TextView>
 
     <TextView
@@ -59,18 +58,20 @@
         android:id="@+id/sign_out_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/spinner_category"
-        android:layout_marginTop="98dp"
+        android:layout_below="@id/show_user_details"
         android:text="Sign Out" />
 
     <Button
         android:id="@+id/show_user_details"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/button_start_quiz"
-        android:layout_marginTop="42dp"
-        android:layout_marginBottom="21dp"
+        android:layout_below="@+id/spinner_category"
         android:text="User details"></Button>
 
 
 </RelativeLayout>
+
+
+<!--    android:layout_marginTop="98dp"-->
+<!--    android:layout_marginTop="42dp"-->
+<!--    android:layout_marginBottom="21dp"-->

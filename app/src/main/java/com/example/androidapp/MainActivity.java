@@ -92,17 +92,16 @@ public class MainActivity extends AppCompatActivity {
                 FirebaseAuth.getInstance().signOut();
                 Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                 startActivity(intent);
-               // signOut();
             }
         });
 
-//        userDetailsBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(MainActivity.this, UserDetailsFragment.class);
-//                startActivity(intent);
-//            }
-//        });
+        userDetailsBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, UserDetailsActivity.class);
+                startActivity(intent);
+            }
+        });
 
 
     }
